@@ -14,27 +14,30 @@ OBJ_DIR	=	./obj
 SOURCES	=	\
 $(SRC_DIR)/stm32f429i_discovery.c \
 $(SRC_DIR)/system_stm32f4xx.c \
+$(SRC_DIR)/stm32f4xx_it.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_cortex.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_dma.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_flash.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_flash_ex.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_gpio.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_i2c.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_i2c_ex.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_pwr.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_pwr_ex.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_rcc.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_rcc_ex.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_spi.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_sdram.c \
-$(SRC_DIR)/HAL/stm32f4xx_ll_fmc.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_ltdc.c \
-$(SRC_DIR)/HAL/stm32f4xx_hal_msp.c \
-$(SRC_DIR)/stm32f4xx_it.c \
-$(SRC_DIR)/BSP/driver/ili9341.c  \
+$(SRC_DIR)/HAL/stm32f4xx_hal_gpio.c \
 $(SRC_DIR)/main.c 
 
+
+
+#$(SRC_DIR)/HAL/stm32f4xx_hal_dma.c \
+
+#$(SRC_DIR)/HAL/stm32f4xx_hal_rcc_ex.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_flash.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_flash_ex.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_i2c.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_i2c_ex.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_pwr.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_pwr_ex.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_spi.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_sdram.c \
+#$(SRC_DIR)/HAL/stm32f4xx_ll_fmc.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_ltdc.c \
+#$(SRC_DIR)/HAL/stm32f4xx_hal_msp.c \
+#$(SRC_DIR)/BSP/driver/ili9341.c  \
 
 HEADERS	= 	$(wildcard $(INC_DIR)/*.h)
 ASM	=	$(ASM_DIR)/startup_stm32f429xx.s
@@ -49,9 +52,9 @@ OBJDUMP = 	$(CROSS_COMPILE)objdump
 OBJCOPY = 	$(CROSS_COMPILE)objcopy
 SIZE 	= 	$(CROSS_COMPILE)size
 
-CFLAGS	=	-Os -g3 -mcpu=cortex-m4 -mthumb
+CFLAGS	=	-O0 -g3 -mcpu=cortex-m4 -mthumb -mlittle-endian -mfloat-abi=softfp -march=armv7e-m -mthumb-interwork -mfpu=fpv4-sp-d16
 CFLAGS	+=	-D STM32F429xx -D USE_STM32F429I_DISCO -D USE_STDPERIPH_DRIVER -D HAL_LTDC_MODULE_ENABLED
-CFLAGS 	+= 	-ffunction-sections -fdata-sections -Wl,--gc-sections -mfloat-abi=softfp
+CFLAGS 	+= 	-ffunction-sections -fdata-sections -Wall -fmessage-length=0 -fsigned-char -std=c99 -Wl,-Map=$(BUILDPROJ).map -Wl,--gc-sections 
 
 
 CFLAGS	+= 	-I$(INC_DIR) 
