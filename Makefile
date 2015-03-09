@@ -19,6 +19,10 @@ $(SRC_DIR)/HAL/stm32f4xx_hal.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_cortex.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_rcc.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_gpio.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_spi.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_ltdc.c \
+$(SRC_DIR)/BSP/driver/ili9341.c \
+$(SRC_DIR)/myfb.c \
 $(SRC_DIR)/main.c 
 
 
@@ -32,12 +36,12 @@ $(SRC_DIR)/main.c
 #$(SRC_DIR)/HAL/stm32f4xx_hal_i2c_ex.c \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_pwr.c \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_pwr_ex.c \
-#$(SRC_DIR)/HAL/stm32f4xx_hal_spi.c \
+# \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_sdram.c \
 #$(SRC_DIR)/HAL/stm32f4xx_ll_fmc.c \
-#$(SRC_DIR)/HAL/stm32f4xx_hal_ltdc.c \
+# \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_msp.c \
-#$(SRC_DIR)/BSP/driver/ili9341.c  \
+#  \
 
 HEADERS	= 	$(wildcard $(INC_DIR)/*.h)
 ASM	=	$(ASM_DIR)/startup_stm32f429xx.s
@@ -59,6 +63,7 @@ CFLAGS 	+= 	-ffunction-sections -fdata-sections -Wall -fmessage-length=0 -fsigne
 
 CFLAGS	+= 	-I$(INC_DIR) 
 CFLAGS	+=	-I$(INC_DIR)/BSP
+CFLAGS	+=	-I$(INC_DIR)/BSP/driver
 CFLAGS	+=	-I$(INC_DIR)/CMSIS
 CFLAGS	+=	-I$(INC_DIR)/HAL
 

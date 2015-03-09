@@ -38,6 +38,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "myfb.h"
+
+//#include "st_logo1.h"
+//#include "st_logo2.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,12 +55,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /*Variable used for Erase procedure*/
-   
-/* Private function prototypes -----------------------------------------------*/
+   /* Private function prototypes -----------------------------------------------*/
 //static void SystemClock_Config(void);
 static void Error_Handler(void);
 
 /* Private functions ---------------------------------------------------------*/
+
+
 
 /**
   * @brief  Main program
@@ -65,6 +70,8 @@ static void Error_Handler(void);
   */
 int main(void)
 {
+	union frameB myfb;
+	int x;
   /* STM32F4xx HAL library initialization:
        - Configure the Flash prefetch, instruction and Data caches
        - Configure the Systick to generate an interrupt each 1 msec
@@ -72,18 +79,32 @@ int main(void)
        - Global MSP (MCU Support Package) initialization
      */
   HAL_Init();
+  
+
+  for(x=0;x<1000;x++)
+  {
+	  x--;
+	  x++;
+  }
+	  
   /* Initialize LED2 and LED4 */
   BSP_LED_Init(LED3);
   BSP_LED_Init(LED4);
   /* Configure the system clock to 180 Mhz */
   //SystemClock_Config();
 
+/*Init memory of myfb */
+	//init_myfb(myfb.tablePix);
   
     /* No error detected. Switch on LED3*/
-    BSP_LED_On(LED3);
+    //BSP_LED_On(LED3);
+	//LCD_Config(myfb.tableInt);
  
   while (1)
   {
+	  BSP_LED_On(LED3);
+	  HAL_Delay(1500);
+	  BSP_LED_Off(LED3);
   }
 }
 
@@ -102,7 +123,6 @@ static void Error_Handler(void)
   {
   }
 }
-
 
 
 #ifdef  USE_FULL_ASSERT
