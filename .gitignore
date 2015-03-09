@@ -1,3 +1,10 @@
 *.o
 .map
 toolchain.conf
+.codelite/
+discof429.project
+discof429.workspace
+mytest3.bin
+mytest3.elf
+openocd.cfg
+
