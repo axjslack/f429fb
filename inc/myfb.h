@@ -2,13 +2,15 @@
 #define _myfb_h
 
 #include <stdint.h>
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal_conf.h"
 #include "stm32f4xx_hal_ltdc.h"
 
 typedef struct strPixel
 {
-        uint8_t red: 5;
-        uint8_t green: 6;
-        uint8_t blue: 5;
+        unsigned char red: 5;
+        unsigned char green: 6;
+		unsigned char blue: 5;
 } t565Pixel;
 
 union Pixel
@@ -19,22 +21,20 @@ union Pixel
 };
 
 typedef struct strTablePix {
-	t565Pixel PixelTable[240][320];
+	volatile t565Pixel PixelTable[240][160];
 } tTablePix;
 
 
 
-union frameB
+typedef union frameBuf
 {
 	tTablePix tablePix;
-	uint32_t tableInt[38400];
+	volatile uint32_t *tableInt;
 	
-};
+} frameB;
 
 LTDC_HandleTypeDef LtdcHandle;
 
-void init_myfb(tTablePix tablePix);
-static void LCD_Config(uint32_t *myfb);
-static void Error_Handler(void);
+void init_myfb();
 
 #endif 

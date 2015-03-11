@@ -21,14 +21,22 @@ $(SRC_DIR)/HAL/stm32f4xx_hal_rcc.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_gpio.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_spi.c \
 $(SRC_DIR)/HAL/stm32f4xx_hal_ltdc.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_pwr_ex.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_rcc_ex.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_sdram.c \
+$(SRC_DIR)/HAL/stm32f4xx_hal_dma.c \
+$(SRC_DIR)/HAL/stm32f4xx_ll_fmc.c \
 $(SRC_DIR)/BSP/driver/ili9341.c \
+$(SRC_DIR)/BSP/stm32f429i_discovery_lcd.c \
+$(SRC_DIR)/BSP/stm32f429i_discovery_sdram.c \
+$(SRC_DIR)/systemclock_config.c \
 $(SRC_DIR)/myfb.c \
 $(SRC_DIR)/main.c 
 
 
 
 #$(SRC_DIR)/HAL/stm32f4xx_hal_dma.c \
-
+#$(SRC_DIR)/BSP/stm32f429i_discovery_sdram.c \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_rcc_ex.c \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_flash.c \
 #$(SRC_DIR)/HAL/stm32f4xx_hal_flash_ex.c \
@@ -57,9 +65,10 @@ OBJCOPY = 	$(CROSS_COMPILE)objcopy
 SIZE 	= 	$(CROSS_COMPILE)size
 
 CFLAGS	=	-O0 -g3 -mcpu=cortex-m4 -mthumb -mlittle-endian -mfloat-abi=softfp -march=armv7e-m -mthumb-interwork -mfpu=fpv4-sp-d16
-CFLAGS	+=	-D STM32F429xx -D USE_STM32F429I_DISCO -D USE_STDPERIPH_DRIVER -D HAL_LTDC_MODULE_ENABLED
+CFLAGS	+=	-D STM32F429xx -D USE_STM32F429I_DISCO  -D HAL_LTDC_MODULE_ENABLED -D USE_HAL_DRIVER -D HAL_SDRAM_MODULE_ENABLED
 CFLAGS 	+= 	-ffunction-sections -fdata-sections -Wall -fmessage-length=0 -fsigned-char -std=c99 -Wl,-Map=$(BUILDPROJ).map -Wl,--gc-sections 
 
+#-D USE_STDPERIPH_DRIVER
 
 CFLAGS	+= 	-I$(INC_DIR) 
 CFLAGS	+=	-I$(INC_DIR)/BSP

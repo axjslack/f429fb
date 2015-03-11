@@ -40,6 +40,8 @@
 #define __MAIN_H
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal_conf.h"
 #include "stm32f429i_discovery.h"
 //#include "stm32f4xx_hal_ltdc.h"
 

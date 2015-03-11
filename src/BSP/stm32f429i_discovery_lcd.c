@@ -75,13 +75,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f429i_discovery_lcd.h"
+#include "stm32f4xx_hal_dma2d.h"
+#ifdef USE_FONTS
 #include "..\..\..\Utilities\Fonts\fonts.h"
 #include "..\..\..\Utilities\Fonts\font24.c"
 #include "..\..\..\Utilities\Fonts\font20.c"
 #include "..\..\..\Utilities\Fonts\font16.c"
 #include "..\..\..\Utilities\Fonts\font12.c"
 #include "..\..\..\Utilities\Fonts\font8.c"
-
+#endif
 /** @addtogroup BSP
   * @{
   */ 
@@ -225,11 +227,14 @@ uint8_t BSP_LCD_Init(void)
     LcdDrv->Init();
 
     /* Initialize the SDRAM */
-    BSP_SDRAM_Init();
-
+    #ifdef HAL_SDRAM_MODULE_ENABLED
+	BSP_SDRAM_Init();
+	#endif
+	
     /* Initialize the font */
-    BSP_LCD_SetFont(&LCD_DEFAULT_FONT);
-
+    #ifdef USE_FONTS
+	BSP_LCD_SetFont(&LCD_DEFAULT_FONT);
+	#endif 
   return LCD_OK;
 }  
 
@@ -281,11 +286,11 @@ void BSP_LCD_LayerDefaultInit(uint16_t LayerIndex, uint32_t FB_Address)
   Layercfg.ImageHeight = BSP_LCD_GetYSize();
   
   HAL_LTDC_ConfigLayer(&LtdcHandler, &Layercfg, LayerIndex); 
-
+#ifdef USE_FONTS
   DrawProp[LayerIndex].BackColor = LCD_COLOR_WHITE;
   DrawProp[LayerIndex].pFont     = &Font24;
   DrawProp[LayerIndex].TextColor = LCD_COLOR_BLACK; 
-
+#endif
   /* Dithering activation */
   HAL_LTDC_EnableDither(&LtdcHandler);
 }
@@ -440,11 +445,12 @@ void BSP_LCD_SetFont(sFONT *pFonts)
   * @param  None
   * @retval Layer font
   */
+#ifdef USE_FONTS
 sFONT *BSP_LCD_GetFont(void)
 {
   return DrawProp[ActiveLayer].pFont;
 }
-
+#endif
 /**
   * @brief  Reads Pixel.
   * @param  Xpos: the X position
@@ -492,6 +498,7 @@ void BSP_LCD_Clear(uint32_t Color)
   FillBuffer(ActiveLayer, (uint32_t *)(LtdcHandler.LayerCfg[ActiveLayer].FBStartAdress), BSP_LCD_GetXSize(), BSP_LCD_GetYSize(), 0, Color);
 }
 
+#ifdef USE_FONTS
 /**
   * @brief  Clears the selected line.
   * @param  Line: the line to be cleared
@@ -638,6 +645,8 @@ void BSP_LCD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
   * @param  Y2: the point 2 Y position
   * @retval None
   */
+  
+#endif  
 void BSP_LCD_DrawLine(uint16_t X1, uint16_t Y1, uint16_t X2, uint16_t Y2)
 {
   int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 

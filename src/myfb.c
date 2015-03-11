@@ -1,7 +1,7 @@
 #include "ili9341.h"
 #include "myfb.h"
 
-
+static frameB myfb;
 
 static void Error_Handler(void)
 {
@@ -10,23 +10,6 @@ static void Error_Handler(void)
   while(1)
   {
   }
-}
-
-
-void init_myfb(tTablePix tablePix)
-{
-        int i,j;
-
-        for(i=0;i<320;i++)
-        {
-                for(j=0;j<240;j++)
-                {
-				tablePix.PixelTable[i][j].red=i;
-                tablePix.PixelTable[i][j].green=i;
-                tablePix.PixelTable[i][j].blue=i;
-                }
-        }
-	
 }
 
 
@@ -49,13 +32,14 @@ void init_myfb(tTablePix tablePix)
 
 
 
-static void LCD_Config(uint32_t *myfb)
+static void LCD_Config()
 {  
   LTDC_LayerCfgTypeDef pLayerCfg;
   //LTDC_LayerCfgTypeDef pLayerCfg1;
 
   /* Initializaton of ILI9341 component*/
   ili9341_Init();
+  ili9341_DisplayOn();
   
 /* LTDC Initialization -------------------------------------------------------*/
   
@@ -115,15 +99,15 @@ static void LCD_Config(uint32_t *myfb)
   
   /* Pixel Format configuration*/ 
   pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB565;
-  pLayerCfg.FBStartAdress = (uint32_t)myfb;	
+  pLayerCfg.FBStartAdress = (uint32_t)&myfb.tablePix;	
 
   pLayerCfg.Alpha = 255;
   
   /* Default Color configuration (configure A,R,G,B component values) */
   pLayerCfg.Alpha0 = 0;
   pLayerCfg.Backcolor.Blue = 0;
-  pLayerCfg.Backcolor.Green = 32;
-  pLayerCfg.Backcolor.Red = 0;
+  pLayerCfg.Backcolor.Green = 0;
+  pLayerCfg.Backcolor.Red = 255;
   
   /* Configure blending factors */
   pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
@@ -152,6 +136,32 @@ static void LCD_Config(uint32_t *myfb)
   //{
   //  /* Initialization Error */
   //  Error_Handler(); 
-  //}  
+  //} 
+	 
+
 }  
+
+
+
+void init_myfb()
+{
+        int i,j;
+		
+
+        for(i=0;i<240;i++)
+        {
+                for(j=0;j<160;j++)
+                {
+				myfb.tablePix.PixelTable[i][j].red=0;
+                myfb.tablePix.PixelTable[i][j].green=0x3E;
+                myfb.tablePix.PixelTable[i][j].blue=0;
+                }
+        }
+	
+	//LCD_Config();
+	BSP_LCD_Init();
+	BSP_LCD_LayerDefaultInit(0, (uint32_t)&myfb.tableInt);
+	BSP_LCD_SetLayerVisible(0, ENABLE);
+
+}
 
